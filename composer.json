@@ -1,0 +1,15 @@
+{
+    "name": "magium/clairvoyant-generic-tests",
+    "type": "library",
+    "require": {
+        "magium/magium": "^1.1",
+        "magium/clairvoyant": "dev-master",
+        "zendframework/zend-uri": "^2.5"
+    },
+    "authors": [
+        {
+            "name": "Kevin Schroeder",
+            "email": "kschroeder@magiumlib.com"
+        }
+    ]
+}
