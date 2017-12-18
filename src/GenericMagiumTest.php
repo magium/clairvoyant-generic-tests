@@ -5,6 +5,8 @@ namespace Magium\Clairvoyant\GenericTests;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
 use Magium\AbstractTestCase;
+use Magium\Clairvoyant\Capture\PageInformation;
+use Magium\Clairvoyant\Listener\GenericClairvoyantAdapter;
 use Zend\Uri\Uri;
 
 class GenericMagiumTest extends AbstractTestCase
@@ -37,10 +39,15 @@ class GenericMagiumTest extends AbstractTestCase
 
     public function testSite()
     {
+        $writer = $this->get(GenericClairvoyantAdapter::class);
+        /** @var $writer GenericClairvoyantAdapter */
+        $writer->setTestTitle('Generic Magium Test');
+        $writer->setTestDescription('This is a generic test that finds the first 10 links, preferably navigation links, on the home page and clicks on them');
 
         $this->startTimer();
         $this->commandOpen($this->getUrl());
         $this->endTimer($this->getWebdriver()->getTitle());
+        $this->get(PageInformation::class)->capture();
 
         $this->testMainUrl = $this->webdriver->getCurrentURL();
         $uri = new Uri($this->testMainUrl);
@@ -50,7 +57,7 @@ class GenericMagiumTest extends AbstractTestCase
 
         while (($element = $this->getNextLink()) !== null) {
             try {
-                $this->sleep('1000ms'); // Give it some breaking room
+                $this->sleep('1000ms'); // Give it some breathing room
                 $this->startTimer();
                 $linkLabel = $this->getElementValue($element);
                 $element->click();
@@ -58,6 +65,7 @@ class GenericMagiumTest extends AbstractTestCase
                     $linkLabel = trim($this->getWebdriver()->getTitle());
                 }
                 $this->endTimer($linkLabel);
+                $this->get(PageInformation::class)->capture();
                 $this->clickCount++;
             } catch (\Exception $e) {
                 $this->clickClose();

@@ -3,7 +3,7 @@
     "type": "library",
     "require": {
         "magium/magium": "^1.1",
-        "magium/clairvoyant": "dev-master",
+        "magium/clairvoyant": "^0.2.1",
         "zendframework/zend-uri": "^2.5"
     },
     "authors": [
